@@ -22,23 +22,22 @@ def record_stream():
         os.makedirs(ARCHIVE_DIR)
 
     while True:
-
-    ffmpeg_command = [
-        "ffmpeg",
-        "-rtsp_transport", "tcp",
-        "-i", RTSP_URL,
-        "-c", "copy",
-        "-map", "0",
-        "-f", "segment",
-        "-segment_time", "60",
-        "-segment_format", "mp4",
-        "-strftime", "1",
-        "-reset_timestamps", "1",
-        os.path.join(ARCHIVE_DIR, "%Y%m%d-%H%M%S.mp4"),
-    ]
+        ffmpeg_command = [
+            "ffmpeg",
+            "-rtsp_transport", "tcp",
+            "-i", RTSP_URL,
+            "-c", "copy",
+            "-map", "0",
+            "-f", "segment",
+            "-segment_time", "60",
+            "-segment_format", "mp4",
+            "-strftime", "1",
+            "-reset_timestamps", "1",
+            os.path.join(ARCHIVE_DIR, "%Y%m%d-%H%M%S.mp4"),
+        ]
 
         try:
-            print(f"Starting recording... output to {output_file}")
+            print(f"Starting recording... output to {ARCHIVE_DIR}/%Y%m%d-%H%M%S.mp4")
             subprocess.run(ffmpeg_command, check=True)
         except subprocess.CalledProcessError as e:
             print(f"ffmpeg command failed with exit code {e.returncode}")
