@@ -22,21 +22,20 @@ def record_stream():
         os.makedirs(ARCHIVE_DIR)
 
     while True:
-        timestamp = time.strftime("%Y%m%d-%H%M%S")
-        output_file = os.path.join(ARCHIVE_DIR, f"{timestamp}.mp4")
 
-        ffmpeg_command = [
-            "ffmpeg",
-            "-rtsp_transport", "tcp",
-            "-i", RTSP_URL,
-            "-c", "copy",
-            "-map", "0",
-            "-f", "segment",
-            "-segment_time", "60",
-            "-segment_format", "mp4",
-            "-reset_timestamps", "1",
-            output_file,
-        ]
+    ffmpeg_command = [
+        "ffmpeg",
+        "-rtsp_transport", "tcp",
+        "-i", RTSP_URL,
+        "-c", "copy",
+        "-map", "0",
+        "-f", "segment",
+        "-segment_time", "60",
+        "-segment_format", "mp4",
+        "-strftime", "1",
+        "-reset_timestamps", "1",
+        os.path.join(ARCHIVE_DIR, "%Y%m%d-%H%M%S.mp4"),
+    ]
 
         try:
             print(f"Starting recording... output to {output_file}")
